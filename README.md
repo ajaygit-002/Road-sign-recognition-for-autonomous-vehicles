@@ -1,3 +1,110 @@
+# Traffic Sign Recognition for Autonomous Vehicles
+
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/)
+[![Model](https://img.shields.io/badge/model-43--class-green.svg)](my_model.h5)
+
+A compact, easy-to-use repository for recognizing traffic signs using a pretrained CNN and a PyQt5 GUI. This README is formatted to display well on all screen sizes — images and diagrams scale responsively.
+
+<!-- toc -->
+- [Quick Links](#quick-links)
+- [Preview](#preview)
+- [Requirements](#requirements)
+- [Quickstart](#quickstart)
+- [Training](#training)
+- [Dataset Structure](#dataset-structure)
+- [Project Layout](#project-layout)
+- [Tips & Troubleshooting](#tips--troubleshooting)
+- [License & Contact](#license--contact)
+<!-- tocstop -->
+
+## Quick Links
+- Model: `my_model.h5`
+- Training script: `training/train.py`
+- Dataset folder: `dataset/`
+- Visual summary: `VISUAL_SUMMARY.md`
+
+## Preview
+<div>
+  <img src="VISUAL_SUMMARY.md" alt="visual summary" style="max-width:100%;height:auto;display:block;margin:0 auto;">
+</div>
+
+> Tip: images in this README use `max-width:100%` so they scale on mobile and desktop.
+
+## Requirements
+- Python 3.9 or newer
+- Recommended packages (install with):
+
+```bash
+pip install -r requirements.txt
+```
+
+If you prefer a one-liner:
+
+```bash
+pip install tensorflow==2.13.0 keras numpy pillow scikit-learn matplotlib pyqt5
+```
+
+## Quickstart
+1. Open a terminal in the project root.
+2. Run the GUI:
+
+```bash
+python main.py
+```
+
+3. In the GUI: upload an image and get an immediate prediction.
+
+Command-line training (optional):
+
+```bash
+python training/train.py
+```
+
+## Training
+- Prepare dataset (see next section).
+- Training saves a new model as `my_model_new.h5` and writes `Accuracy1.png` / `Loss1.png` to `outputs/`.
+- Recommended callbacks: early stopping and LR reduction.
+
+## Dataset Structure
+Use the included `dataset/` layout or follow this minimal structure:
+
+```
+dataset/
+  train/
+    images/
+    labels/  # YOLO-style .txt files or per-class folders depending on your pipeline
+```
+
+For classification-only training you can also organize images per-class under `dataset/train/<class_id>/`.
+
+## Project Layout
+- `main.py` — GUI + inference
+- `training/train.py` — training entrypoint
+- `utils/` — helper modules (`data_loader.py`, `model.py`, `classes.py`)
+- `models/` — saved model artifacts (`traffic_sign_model.h5`, `my_model.h5`)
+- `dataset/` — sample dataset folders
+
+## Tips & Troubleshooting
+- If you see TensorFlow DLL errors on Windows, reinstall a matching TF wheel:
+
+```bash
+pip uninstall tensorflow keras -y
+pip install tensorflow==2.13.0
+```
+
+- If PyQt5 installation fails:
+
+```bash
+pip install PyQt5 --upgrade
+```
+
+- Use clear, front-facing sign images for best results. The model expects 30×30 RGB input — preprocessing is handled in `utils/`.
+
+## License & Contact
+This repository is provided as-is. See `LICENSE` for details.
+
+Questions or improvements? Open an issue or contact the maintainer.
 # Traffic Sign Recognition System
 
 A PyQt5-based GUI application that recognizes traffic signs using a pre-trained deep learning model. The system can classify 43 different types of German traffic signs.
