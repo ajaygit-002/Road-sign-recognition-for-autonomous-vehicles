@@ -66,6 +66,16 @@ python training/train.py
 - Training saves a new model as `my_model_new.h5` and writes `Accuracy1.png` / `Loss1.png` to `outputs/`.
 - Recommended callbacks: early stopping and LR reduction.
 
+This project now supports a modern transfer-learning option (MobileNetV2) for better accuracy and responsiveness.
+
+- By default training uses a larger input size (`96×96`) and a MobileNetV2 backbone when `USE_TRANSFER_LEARNING` is enabled in `utils/config.py`.
+- The code stays backwards-compatible: if transfer learning is disabled the original lightweight CNN is used.
+
+Tips for responsive/modern usage:
+- Increase `IMG_SIZE` in `utils/config.py` to tradeoff accuracy vs. speed.
+- Set `USE_TRANSFER_LEARNING = True` and tune `FINE_TUNE_AT` to enable fine-tuning on later layers.
+- Use `AUGMENTATION = True` for simple training-time augmentation; adjust `AUGMENTATION_PARAMS` as needed.
+
 ## Dataset Structure
 Use the included `dataset/` layout or follow this minimal structure:
 

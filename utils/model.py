@@ -5,21 +5,34 @@ Defines the CNN model structure and provides functions for model management.
 
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPool2D, Dense, Flatten, Dropout
-from .config import IMG_SIZE
+from .config import IMG_SIZE, USE_TRANSFER_LEARNING, INPUT_SHAPE, LEARNING_RATE, FINE_TUNE_AT
+
+if USE_TRANSFER_LEARNING:
+    try:
+        from .modern_model import create_transfer_model
+    except Exception:
+        create_transfer_model = None
 
 
-def create_model(num_classes=43, input_shape=(30, 30, 3)):
-    """
-    Create a CNN model for traffic sign classification.
-    
+def create_model(num_classes=43, input_shape=None):
+    """Create a model. If transfer learning is enabled, return a pretrained backbone model.
+
     Args:
-        num_classes: Number of output classes (default: 43 for traffic signs)
-    
+        num_classes: Number of output classes
+        input_shape: Optional input shape override
+
     Returns:
-        model: Compiled Keras Sequential model
+        model: Uncompiled/compiled Keras model depending on branch
     """
+    if input_shape is None:
+        input_shape = INPUT_SHAPE
+
+    if USE_TRANSFER_LEARNING and create_transfer_model is not None:
+        return create_transfer_model(num_classes=num_classes, input_shape=input_shape,
+                                     learning_rate=LEARNING_RATE, fine_tune_at=FINE_TUNE_AT)
+
     model = Sequential()
-    
+
     # First convolutional block
     model.add(Conv2D(filters=32, kernel_size=(5, 5), activation='relu', 
                      input_shape=input_shape))

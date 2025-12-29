@@ -4,9 +4,16 @@ Configuration constants for the project.
 VERSION = "2.0"
 
 # Image and training parameters
-IMG_SIZE = 30
+# Default to a larger size when using modern backbones (MobileNetV2)
+IMG_SIZE = 96
 BATCH_SIZE = 32
 EPOCHS = 25
+
+# Transfer learning / modern algorithm options
+USE_TRANSFER_LEARNING = True
+BASE_MODEL_NAME = 'MobileNetV2'  # currently supported: MobileNetV2
+INPUT_SHAPE = (IMG_SIZE, IMG_SIZE, 3)
+FINE_TUNE_AT = 100  # layer from which to fine-tune (None to skip)
 
 # Enable simple training-time augmentation
 AUGMENTATION = True

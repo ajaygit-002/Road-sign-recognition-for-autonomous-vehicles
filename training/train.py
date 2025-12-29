@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.data_loader import load_dataset, prepare_training_data
 from utils.model import create_model, compile_model
 from utils.classes import NUM_CLASSES
-from utils.config import BATCH_SIZE, EPOCHS, AUGMENTATION, AUGMENTATION_PARAMS, IMG_SIZE
+from utils.config import BATCH_SIZE, EPOCHS, AUGMENTATION, AUGMENTATION_PARAMS, IMG_SIZE, INPUT_SHAPE, USE_TRANSFER_LEARNING, LEARNING_RATE, FINE_TUNE_AT
 
 
 def main():
@@ -69,8 +69,13 @@ def main():
     print("\n" + "-" * 60)
     print("Creating and compiling model...")
     print("-" * 60)
-    model = create_model(num_classes=NUM_CLASSES)
-    model = compile_model(model)
+    model = create_model(num_classes=NUM_CLASSES, input_shape=INPUT_SHAPE)
+    # create_model may already return a compiled transfer model; only compile if uncompiled
+    try:
+        # If model has attribute 'optimizer' set, assume compiled
+        _ = model.optimizer
+    except Exception:
+        model = compile_model(model)
     print("Model created successfully!")
     print(f"Total parameters: {model.count_params():,}")
     
