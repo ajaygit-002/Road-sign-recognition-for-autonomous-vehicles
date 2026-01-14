@@ -72,8 +72,8 @@ def test_preprocess():
 
 
 def test_tracker():
-    """Test SimpleTracker functionality."""
-    print("\nTesting SimpleTracker...")
+    """Test EnhancedTracker functionality."""
+    print("\nTesting EnhancedTracker...")
     
     from src.utils.types import Detection
     
@@ -106,6 +106,12 @@ def test_tracker():
     assert tracker.is_stable(0) == True
     assert tracker.is_stable(1) == True
     print("✓ Stable tracks detection passed")
+    
+    # Test new features
+    stats = tracker.get_statistics()
+    assert stats['total_tracks'] == 2
+    assert stats['stable_tracks'] == 2
+    print("✓ Statistics feature passed")
     
     # Test reset
     tracker.reset()
